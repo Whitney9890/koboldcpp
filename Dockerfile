@@ -12,8 +12,9 @@ WORKDIR /app
 RUN git clone https://github.com/LostRuins/koboldcpp.git && \
     cd koboldcpp && \
     make -j && \
-    find . -type f -name "koboldcpp*" && \
-    sleep 10
+   cp koboldcpp_default.so /app/koboldcpp_exec && \
+   chmod +x /app/koboldcpp_exec
+
 
 # Download model from HuggingFace
 RUN mkdir -p /app/models && \
