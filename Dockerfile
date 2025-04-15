@@ -2,7 +2,8 @@
 FROM python:3.12-slim
 
 # Install system dependencies, setuptools, and wheel
-RUN apt-get update && apt-get install -y python3-distutils python3-setuptools build-essential libffi-dev && pip install setuptools==59.0.0 wheel
+RUN apt-get update && apt-get install -y python3-distutils python3-setuptools build-essential libffi-dev && pip install setuptools wheel
+
 
 # Set the working directory
 WORKDIR /app
