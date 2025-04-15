@@ -22,5 +22,8 @@ RUN pip install protobuf>=4.21.0
 # Make port 5000 available to the world outside this container
 EXPOSE 5000
 
+# Give execute permissions to the install script
+RUN chmod +x ./install_requirements.sh
+
 # Run the application
 CMD ["./install_requirements.sh"]
