@@ -1,6 +1,6 @@
 FROM python:3.10-slim
 
-# Install dependencies
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     build-essential cmake git curl wget libomp-dev \
     && pip install setuptools wheel
@@ -8,14 +8,16 @@ RUN apt-get update && apt-get install -y \
 # Set working directory
 WORKDIR /app
 
-# Clone & build KoboldCpp
+# Clone and build KoboldCpp
 RUN git clone https://github.com/LostRuins/koboldcpp.git && \
     cd koboldcpp && \
-    make -j
+    make -j && \
+    cp koboldcpp /app/koboldcpp_exec || cp build/koboldcpp /app/koboldcpp_exec && \
+    chmod +x /app/koboldcpp_exec
 
 # Download model
 RUN mkdir -p /app/models && \
-    curl -L -o /app/models/mythomax.gguf https://huggingface.co/Zearal/Mee/resolve/main/mythomax-12-13b_Q5_K_M.gguf
+    curl -L -o /app/models/mythomax.gguf https://huggingface.co/Zearal/Mee/resolve/main/mythomax-13b.Q5_K_M.gguf
 
-# Run KoboldCpp with model + debug log
-CMD ["./koboldcpp/koboldcpp", "--model", "models/mythomax.gguf", "--host", "0.0.0.0", "--port", "5000", "--logdir", "logs"]
+# Run KoboldCpp with the model
+CMD ["/app/koboldcpp_exec", "--model", "/app/models/mythomax.gguf", "--host", "0.0.0.0", "--port", "5000"]
