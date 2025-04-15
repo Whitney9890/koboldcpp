@@ -12,6 +12,7 @@ WORKDIR /app
 RUN git clone https://github.com/LostRuins/koboldcpp.git && \
     cd koboldcpp && \
     make -j && \
+    ls -al && \
     cp koboldcpp /app/koboldcpp_exec && \
     chmod +x /app/koboldcpp_exec
     
