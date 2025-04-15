@@ -11,9 +11,7 @@ WORKDIR /app
 # Clone and build KoboldCpp
 RUN git clone https://github.com/LostRuins/koboldcpp.git && \
     cd koboldcpp && \
-    make -j && \
-    mv koboldcpp /app/koboldcpp && \
-    chmod +x /app/koboldcpp
+    make -j
 
 # Run KoboldCpp with the model
 CMD ["./koboldcpp/koboldcpp", "--model", "/app/models/mythomax.gguf", "--host", "0.0.0.0", "--port", "5000"]
