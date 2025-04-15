@@ -12,9 +12,9 @@ WORKDIR /app
 RUN git clone https://github.com/LostRuins/koboldcpp.git && \
     cd koboldcpp && \
     make -j && \
-    cp koboldcpp /app/koboldcpp_exec || cp build/koboldcpp /app/koboldcpp_exec && \
+    cp ./koboldcpp /app/koboldcpp_exec && \
     chmod +x /app/koboldcpp_exec
-
+    
 # Download model from HuggingFace
 RUN mkdir -p /app/models && \
     curl -L -o /app/models/mythomax.gguf https://huggingface.co/Zeara1/Mee/resolve/main/mythomax-l2-13b.Q5_K_M.gguf
