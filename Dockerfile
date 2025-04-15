@@ -3,7 +3,7 @@ FROM python:3.12-slim
 
 # Install system dependencies, setuptools, and wheel
 RUN apt-get update && apt-get install -y python3-distutils python3-setuptools build-essential libffi-dev && \
-    pip install --upgrade setuptools wheel
+    pip install --upgrade pip setuptools wheel
 
 # Set the working directory
 WORKDIR /app
@@ -11,7 +11,7 @@ WORKDIR /app
 # Copy the current directory contents into the container at /app
 COPY . /app
 
-# Install each package separately (instead of running pip install -r requirements.txt)
+# Install each package separately
 RUN pip install setuptools
 RUN pip install numpy==1.24.4
 RUN pip install sentencepiece==0.1.98
