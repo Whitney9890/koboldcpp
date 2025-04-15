@@ -1,22 +1,23 @@
-FROM debian:bullseye-slim
+FROM python:3.10-slim
 
+# Install dependencies
 RUN apt-get update && apt-get install -y \
-    build-essential \
-    git \
-    curl \
-    python3 \
-    python3-pip \
-    && rm -rf /var/lib/apt/lists/*
+    build-essential cmake git curl wget libomp-dev \
+    && pip install --upgrade pip setuptools
 
+# Set working directory
 WORKDIR /app
 
+# Clone and build KoboldCpp
 RUN git clone https://github.com/LostRuins/koboldcpp.git && \
     cd koboldcpp && \
-    make -j
+    make -j && \
+    cp koboldcpp_default.so /app/ && \
+    chmod +x /app/koboldcpp_default.so
 
-# Copy model into proper place (this assumes your model is mounted at /app/models)
-COPY ./koboldcpp /app/koboldcpp_exec
+# Download model into volume (which is now mounted at /app/models)
+RUN mkdir -p /app/models && \
+    curl -L -o /app/models/mythomax.gguf https://huggingface.co/Zeara1/Mee/resolve/main/mythomax-12-13b.Q5_K_M.gguf
 
-EXPOSE 5000
-
-CMD ["./koboldcpp/koboldcpp", "--model", "/app/models/mythomax.gguf", "--host", "0.0.0.0", "--port", "5000"]
+# Run KoboldCpp with the model
+CMD ["python", "/app/koboldcpp/koboldcpp_exec.py", "--model", "/app/models/mythomax.gguf", "--host", "0.0.0.0", "--port", "5000"]
