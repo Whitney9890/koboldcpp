@@ -9,7 +9,6 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 
 # Clone and build KoboldCpp
-...
 RUN git clone https://github.com/LostRuins/koboldcpp.git && \
     cd koboldcpp && \
     make -j
