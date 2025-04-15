@@ -1,8 +1,8 @@
 # Use an official Python runtime as the base image
 FROM python:3.12-slim
 
-# Install necessary system dependencies
-RUN apt-get update && apt-get install -y python3-distutils python3-setuptools build-essential python3-dev libffi-dev
+# Install system dependencies and ensure setuptools is installed
+RUN apt-get update && apt-get install -y python3-distutils python3-setuptools build-essential libffi-dev && pip install setuptools==58.0.0
 
 # Install wheel
 RUN pip install wheel
