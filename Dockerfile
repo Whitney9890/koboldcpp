@@ -20,4 +20,4 @@ RUN mkdir -p /app/models && \
     curl -L -o /app/models/mythomax.gguf https://huggingface.co/Zeara1/Mee/resolve/main/mythomax-12-13b.Q5_K_M.gguf
 
 # Run KoboldCpp with the model
-CMD ["python", "/app/koboldcpp/koboldcpp_exec.py", "--model", "/app/models/mythomax.gguf", "--host", "0.0.0.0", "--port", "5000"]
+CMD ["/app/koboldcpp_exec", "--model", "/app/models/mythomax.gguf", "--host", "0.0.0.0", "--port", "5000"]
