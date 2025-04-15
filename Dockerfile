@@ -1,25 +1,25 @@
 FROM python:3.10-slim
 
-# Install required build dependencies
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
-    build-essential cmake git curl wget \
-    libomp-dev libfftw3-dev libopenblas-dev \
+    build-essential cmake git curl libomp-dev libfftw3-dev libopenblas-dev \
     python3-setuptools && \
     pip install setuptools wheel
 
-# Set working directory
+# Set working dir
 WORKDIR /koboldcpp
 
-# Clone KoboldCpp and build it
+# Clone repo & build
 RUN git clone https://github.com/LostRuins/koboldcpp.git . && \
-    make -j
+    make -j4 && \
+    cp ./build/koboldcpp ./koboldcpp
 
-# Create model folder & download model
-RUN mkdir -p /koboldcpp/models
-RUN curl -L -o /koboldcpp/models/mythomax.gguf https://huggingface.co/Zeara1/Mee/resolve/main/mythomax-12-13b.Q5_K_M.gguf
+# Download your GGUF model
+RUN mkdir -p /koboldcpp/models && \
+    curl -L -o models/mythomax.gguf https://huggingface.co/Zeara1/Mee/resolve/main/mythomax-12-13b.Q5_K_M.gguf
 
 # Expose port
 EXPOSE 5000
 
-# Launch KoboldCpp server
+# Launch server
 CMD ["./koboldcpp", "--model", "models/mythomax.gguf", "--host", "0.0.0.0", "--port", "5000"]
