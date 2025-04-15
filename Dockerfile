@@ -8,16 +8,10 @@ RUN apt-get update && apt-get install -y \
 # Set working directory
 WORKDIR /app
 
+# Clone and build KoboldCpp
 RUN git clone https://github.com/LostRuins/koboldcpp.git && \
     cd koboldcpp && \
-    make -j && \
-    mv koboldcpp /app/koboldcpp
+    make -j
 
-# Download the GGUF model
-RUN mkdir -p /app/models && \
-    curl -L -o /app/models/mythomax.gguf https://huggingface.co/Zeara1/Mee/resolve/main/mythomax-12-13b.Q5_K_M.gguf
-
-EXPOSE 5000
-
-# Run KoboldCpp on the model
-CMD ["/app/koboldcpp", "--model", "models/mythomax.gguf", "--host", "0.0.0.0", "--port", "5000"]
+# Run KoboldCpp with the model
+CMD ["./koboldcpp/koboldcpp", "--model", "models/mythomax.gguf", "--host", "0.0.0.0", "--port", "5000"]
