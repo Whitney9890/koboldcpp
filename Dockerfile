@@ -8,8 +8,7 @@ RUN apt-get update && apt-get install -y \
 # Set working directory
 WORKDIR /app
 
-# Clone a known-good KoboldCpp commit
-RUN git clone --branch release-1.49 https://github.com/LostRuins/koboldcpp.git && \
+RUN git clone --branch release-1.63 https://github.com/LostRuins/koboldcpp.git && \
     cd koboldcpp && \
     make -j && \
     mv koboldcpp /app/koboldcpp
@@ -21,4 +20,4 @@ RUN mkdir -p /app/models && \
 EXPOSE 5000
 
 # Run KoboldCpp on the model
-CMD ["./koboldcpp", "--model", "models/mythomax.gguf", "--host", "0.0.0.0", "--port", "5000"]
+CMD ["/app/koboldcpp", "--model", "models/mythomax.gguf", "--host", "0.0.0.0", "--port", "5000"]
