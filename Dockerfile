@@ -29,4 +29,4 @@ EXPOSE 5000
 RUN chmod +x ./install_requirements.sh
 
 # Run the application
-CMD ["./install_requirements.sh"]
+CMD ["./koboldcpp", "--model", "/app/models/mythomax-12-13b.Q5_K_M.gguf", "--host", "0.0.0.0", "--port", "5000"]
