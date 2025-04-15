@@ -1,5 +1,4 @@
-# Use an official Python runtime as the base image
-FROM python:3.12-slim
+FROM python:3.10-slim
 
 # Install system dependencies, setuptools, and wheel
 RUN apt-get update && apt-get install -y python3-distutils python3-setuptools build-essential libffi-dev cmake git && pip install setuptools wheel
@@ -12,7 +11,7 @@ COPY . /app
 
 # Install each package separately
 RUN pip install setuptools
-RUN pip install numpy   # Removing the version lock for numpy
+RUN pip install numpy
 RUN pip install sentencepiece==0.1.98
 RUN pip install transformers>=4.34.0
 RUN pip install gguf>=0.1.0
