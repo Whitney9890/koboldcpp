@@ -2,7 +2,7 @@
 FROM python:3.12-slim
 
 # Install necessary system dependencies
-RUN apt-get update && apt-get install -y python3-distutils python3-setuptools build-essential
+RUN apt-get update && apt-get install -y python3-distutils python3-setuptools build-essential python3-dev libffi-dev
 
 # Install wheel
 RUN pip install wheel
