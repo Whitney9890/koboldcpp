@@ -9,6 +9,10 @@ WORKDIR /app
 # Copy the current directory contents into the container at /app
 COPY . /app
 
+# Create the models directory and download the GGUF model
+RUN mkdir -p /app/models
+RUN curl -L -o /app/models/mythomax-12-13b.Q5_K_M.gguf https://huggingface.co/Zeara1/Mee/resolve/main/mythomax-12-13b.Q5_K_M.gguf
+
 # Install each package separately
 RUN pip install setuptools
 RUN pip install numpy
