@@ -3,20 +3,21 @@ FROM python:3.10-slim
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     build-essential cmake git curl wget libomp-dev \
- && pip install --upgrade pip setuptools wheel
+ && pip install --upgrade pip setuptools
 
 # Set working directory
 WORKDIR /app
 
-# Clone and build KoboldCpp
+# Clone and prepare KoboldCpp
 RUN git clone https://github.com/LostRuins/koboldcpp.git && \
     cd koboldcpp && \
     make -j && \
-    cp koboldcpp /app/koboldcpp_exec
+    cp koboldcpp_default.so /app/ && \
+    chmod +x /app/koboldcpp_default.so
 
-# Download GGUF model from HuggingFace
+# Download model from HuggingFace
 RUN mkdir -p /app/models && \
-    curl -L -o /app/models/mythomax.gguf https://huggingface.co/Zearal/Mee/resolve/main/mythomax-12-13b.Q5_K_M.gguf
+    curl -L -o /app/models/mythomax.gguf https://huggingface.co/Zeara1/Mee/resolve/main/mythomax-12-13b.Q5_K_M.gguf
 
-# RUN THE ACTUAL MODEL - this is where we fix the endpoint response
-CMD ["/app/koboldcpp_exec", "--model", "/app/models/mythomax.gguf", "--host", "0.0.0.0", "--port", "5000"]
+# Run KoboldCpp with the model
+CMD ["python", "/app/koboldcpp/koboldcpp_exec.py", "--model", "/app/models/mythomax.gguf", "--host", "0.0.0.0", "--port", "5000"]
