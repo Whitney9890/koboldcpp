@@ -11,7 +11,7 @@ WORKDIR /app
 # Clone a known-good KoboldCpp commit
 RUN git clone https://github.com/LostRuins/koboldcpp.git && \
     cd koboldcpp && \
-    git checkout b6670a8 && \
+    git checkout 1.49 && \
     make -j && \
     mv koboldcpp /app/koboldcpp
 
