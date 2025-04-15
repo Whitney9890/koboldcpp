@@ -1,8 +1,8 @@
 # Use an official Python runtime as the base image
 FROM python:3.12-slim
 
-# Install distutils
-RUN apt-get update && apt-get install -y python3-distutils
+# Install distutils and setuptools
+RUN apt-get update && apt-get install -y python3-distutils python3-setuptools
 
 # Set the working directory
 WORKDIR /app
