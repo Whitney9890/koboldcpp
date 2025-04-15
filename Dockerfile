@@ -13,7 +13,7 @@ COPY . /app
 
 # Install each package separately
 RUN pip install setuptools
-RUN pip install numpy==1.24.4
+RUN pip install numpy   # Removing the version lock for numpy
 RUN pip install sentencepiece==0.1.98
 RUN pip install transformers>=4.34.0
 RUN pip install gguf>=0.1.0
