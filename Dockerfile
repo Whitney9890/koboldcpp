@@ -9,9 +9,8 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 
 # Clone a known-good KoboldCpp commit
-RUN git clone https://github.com/LostRuins/koboldcpp.git && \
+RUN git clone --branch release-1.49 https://github.com/LostRuins/koboldcpp.git && \
     cd koboldcpp && \
-    git checkout 1.49 && \
     make -j && \
     mv koboldcpp /app/koboldcpp
 
